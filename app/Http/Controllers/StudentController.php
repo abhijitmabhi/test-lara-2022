@@ -6,18 +6,31 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+
 class StudentController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get (
+     * path="/",
+     * summary="Student",
+     * description="Get Student Information",
+     * operationId="studentShow",
+     * tags={"student"},
+     * @OA\Response(
+     *    response=200,
+     *    description="Success",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="fullName", type="string", example="Sorry, wrong email address or password. Please try again")
+     *        )
+     *     )
+     * )
      */
+
     public function index()
     {
         $studentList = Student::all();
 
-        //return $studentList;
+//        return $studentList;
 
         return \view('welcome',['studentList' => $studentList]);
     }
