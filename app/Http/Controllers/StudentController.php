@@ -10,29 +10,34 @@ use Illuminate\View\View;
 class StudentController extends Controller
 {
     /**
-     * @OA\Get (
-     * path="/",
-     * summary="Student",
-     * description="Get Student Information",
-     * operationId="studentShow",
-     * tags={"student"},
-     * @OA\Response(
-     *    response=200,
-     *    description="Success",
-     *    @OA\JsonContent(
-     *       @OA\Property(property="fullName", type="string", example="Sorry, wrong email address or password. Please try again")
-     *        )
+     * @OA\Get(
+     *      path="/",
+     *      operationId="getProjectsList",
+     *      tags={"Students"},
+     *      summary="Students",
+     *      description="Returns list of projects",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Student")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
      *     )
-     * )
      */
-
     public function index()
     {
         $studentList = Student::all();
 
-//        return $studentList;
+        return $studentList;
 
-        return \view('welcome',['studentList' => $studentList]);
+//        return \view('welcome',['studentList' => $studentList]);
     }
 
     /**
@@ -47,10 +52,34 @@ class StudentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *      path="/",
+     *      operationId="storeProject",
+     *      tags={"Students"},
+     *      summary="Students",
+     *      description="Returns project data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/Student")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Student")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
      */
     public function store(Request $request)
     {
